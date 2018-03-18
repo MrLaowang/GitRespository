@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- <!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">	 -->
+<mapper namespace="cn.itcast.usermanage.mapper.UserMapper">
+	<resultMap type="cn.itcast.usermanage.domain.User"  id="userResultMap">
+		<result column="id" property="id"/>
+		<result column="user_name" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="sex" property="sex"/>
+		<result column="birhtday" property="birthday"/>
+		<result column="age" property="age"/>
+		<result column="created" property="created"/>
+		<result column="updated" property="updated"/>
+	</resultMap>
+	
+	<sql id="commonColumn">
+		<![CDATA[
+			ID,
+			USER_NAME,
+			PASSWORD,
+			NAME,
+			SEX,
+			BIRTHDAY,
+			AGE,
+			CREATED,
+			UPDATED
+		]]>
+	</sql>
+	
+	
+	<select id="findAll"  resultMap="userResultMap">
+		select <include refid="commonColumn"/> from TB_USER
+	</select>
+	<insert id="save" parameterType="cn.itcast.usermanage.domain.User" useGeneratedKeys="true">
+		INSERT INTO mybatis.tb_user (
+			id,
+			user_name,
+			password,
+			name,
+			age,
+			sex,
+			birthday,
+			created,
+			updated
+		)
+		VALUES
+			(
+				null,
+				#{userName},
+				#{password},
+				#{name},
+				#{age},
+				#{sex},
+				#{birthday},
+				now(),
+				now()
+			)
+	</insert>
+	
+	<select id="queryTotalCount" resultType="Long">
+		select count(*) from tb_user
+	</select>
+	<select id="queryUserListByPage" resultMap="userResultMap">
+		select <include refid="commonColumn"/> from tb_user limit #{0}, #{1}
+	</select>
+	
+	<delete id="deleteByIds" >
+		delete from tb_user where id in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>
