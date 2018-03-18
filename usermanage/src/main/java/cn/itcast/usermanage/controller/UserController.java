@@ -29,6 +29,7 @@ public class UserController {
 
     @GetMapping(value="hello")
     public ModelAndView hello(ModelAndView mv) {
+    	System.out.println("ssafsafasd");
     	mv.setViewName("hello");
         return mv;
     }
