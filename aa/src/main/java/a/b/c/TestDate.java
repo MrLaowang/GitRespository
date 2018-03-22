@@ -18,6 +18,7 @@ public class TestDate {
 
 		System.out.println("world");
 
+		System.out.println("我的祖国");
 
 	}
 }
